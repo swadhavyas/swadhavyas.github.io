@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swadha Vyas</title>
+<link rel="icon" type="image/x-icon" href="logo.ico">
+<meta name="description" content="Portfolio of Swadha Vyas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #FAF6EF;
+    --paper-warm: #F3EDE1;
+    --ink: #232019;
+    --ink-soft: #4A453D;
+    --graphite: #756E63;
+    --line: rgba(35,32,25,0.13);
+    --indigo: #2F3B54;
+    --indigo-soft: #545F79;
+    --moss: #4B5A45;
+    --sandstone: #B99A72;
+    --paper-rgb: 250,246,239;
+  }
+  html.dark{
+    --paper: #1B1915;
+    --paper-warm: #211E19;
+    --ink: #EDE7D9;
+    --ink-soft: #C7C0B2;
+    --graphite: #948C7C;
+    --line: rgba(237,231,217,0.14);
+    --indigo: #A9B4CE;
+    --indigo-soft: #8891A8;
+    --moss: #9CB08E;
+    --sandstone: #C9A97B;
+    --paper-rgb: 27,25,21;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    transition:background .5s ease, color .5s ease;
+    overflow-x:hidden;
+  }
+  ::selection{ background: var(--indigo); color: var(--paper); }
+
+  h1,h2,h3,.serif{ font-family:'Newsreader', serif; font-weight:400; }
+  .display{ font-family:'Instrument Serif', serif; font-style:italic; font-weight:400; }
+  .mono{ font-family:'IBM Plex Mono', monospace; letter-spacing:0.02em; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  @media(max-width:640px){ .wrap{ padding:0 22px; } }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--graphite);
+  }
+
+  /* underline hover, citation-style */
+  .cite-link{
+    position:relative;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1px;
+    transition:border-color .3s ease, color .3s ease;
+  }
+  .cite-link:hover{ border-color: var(--indigo); color:var(--indigo); }
+  html.dark .cite-link:hover{ color:var(--indigo); }
+
+  /* reading spine / scroll progress, like a bookbinding thread */
+  .spine{
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:2px;
+    background:transparent;
+    z-index:60;
+  }
+  .spine-fill{
+    height:100%;
+    width:0%;
+    background:var(--indigo);
+    opacity:0.55;
+    transition:width .08s linear;
+  }
+
+  /* nav */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(var(--paper-rgb),0.78);
+    border-bottom:1px solid var(--line);
+  }
+  .navrow{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .navmark{ font-family:'Newsreader', serif; font-size:19px; letter-spacing:0.01em; }
+  .navlinks{ display:flex; gap:28px; align-items:center; }
+  .navlinks a{ font-size:13px; color:var(--ink-soft); }
+  .navlinks a:hover{ color:var(--ink); }
+  .theme-btn{
+    display:flex; align-items:center; justify-content:center;
+    width:34px; height:34px; flex-shrink:0;
+    border:1px solid var(--line); border-radius:50%;
+    background:transparent; color:var(--ink-soft); cursor:pointer;
+    transition:border-color .25s ease, color .25s ease;
+  }
+  .theme-btn:hover{ border-color:var(--indigo); color:var(--indigo); }
+  .theme-btn .icon-moon{ display:none; }
+  html.dark .theme-btn .icon-sun{ display:none; }
+  html.dark .theme-btn .icon-moon{ display:block; }
+  .blog-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.02em;
+    padding:8px 16px; border-radius:999px; background:var(--indigo); color:var(--paper);
+    transition:opacity .25s ease; white-space:nowrap;
+  }
+  .blog-btn:hover{ opacity:0.82; }
+  @media(max-width:520px){ .blog-btn{ display:none; } }
+  @media(max-width:820px){ .navlinks{ display:none; } }
+
+  /* mobile hamburger menu */
+  .menu-btn{
+    display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px;
+    width:34px; height:34px; border:1px solid var(--line); border-radius:50%;
+    background:transparent; cursor:pointer; flex-shrink:0;
+  }
+  .menu-btn span{ display:block; width:14px; height:1px; background:var(--ink-soft); transition:all .3s ease; }
+  .menu-btn.open span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+  .menu-btn.open span:nth-child(2){ opacity:0; }
+  .menu-btn.open span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+  .mobile-menu{
+    display:none; flex-direction:column;
+    max-height:0; overflow:hidden;
+    background:rgba(var(--paper-rgb),0.98);
+    border-bottom:1px solid var(--line);
+    transition:max-height .4s ease;
+  }
+  .mobile-menu.open{ max-height:600px; }
+  .mobile-menu a{ padding:16px 22px; font-size:14px; border-top:1px solid var(--line); border-bottom:none !important; }
+  @media(max-width:820px){
+    .menu-btn{ display:flex; }
+    .mobile-menu{ display:flex; }
+  }
+
+  /* ===== Responsive refinements for tablet / mobile (desktop untouched) ===== */
+  @media(max-width:900px){
+    section{ padding:80px 0; }
+    .hero{ padding-top:150px; padding-bottom:70px; }
+    #contact{ padding-bottom:28px; }
+  }
+  @media(max-width:700px){
+    section{ padding:64px 0; }
+    .hero{ padding-top:130px; padding-bottom:56px; }
+    .section-head{ margin-bottom:44px; }
+    .section-head h2{ font-size:27px !important; }
+    .cv-box{ padding:34px 26px; }
+    .cv-box h3{ font-size:22px; }
+    .project-index{ font-size:34px; }
+    .paper-title{ font-size:19px; }
+    .interest-name{ font-size:17px; }
+    .foot-row{ margin-top:34px; }
+    footer{ padding:28px 0 40px; }
+    .award-collage{ height:280px; margin-top:6px; }
+    .award-photo{ width:70%; }
+  }
+  @media(max-width:520px){
+    .wrap{ padding:0 18px; }
+    section{ padding:52px 0; }
+    .hero{ padding-top:118px; padding-bottom:44px; }
+    .hero .eyebrow{ font-size:11px; }
+    .hero p.lede{ font-size:15.5px; }
+    .scroll-cue{ margin-top:44px; }
+    .about-grid p{ font-size:15.5px; }
+    .paper-top{ gap:12px; }
+    .status-tag{ font-size:10px; padding:3px 10px; }
+    .paper-body{ gap:18px; }
+    .project{ padding:32px 0; }
+    .project-title{ font-size:22px; }
+    .cv-box{ flex-direction:column; align-items:flex-start; gap:20px; }
+    .contact-list a{ font-size:14px; }
+    .navmark{ font-size:17px; }
+    .book{ min-width:100px; height:180px; }
+    .award-collage{ height:220px; }
+  }
+
+  /* section rhythm */
+  section{ position:relative; padding:120px 0; border-bottom:1px solid var(--line); }
+  #contact{ padding-bottom:36px; }
+  section:last-of-type{ border-bottom:none; }
+  .section-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:64px; gap:24px; flex-wrap:wrap; }
+  .section-num{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--graphite); }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity 0.9s cubic-bezier(.2,.6,.2,1), transform 0.9s cubic-bezier(.2,.6,.2,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal-delay-1{ transition-delay:.08s; }
+  .reveal-delay-2{ transition-delay:.16s; }
+  .reveal-delay-3{ transition-delay:.24s; }
+
+  /* HERO */
+  .hero{ padding-top:190px; padding-bottom:110px; border-bottom:1px solid var(--line); }
+  .hero-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:64px; align-items:end; }
+  @media(max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+  .hero h1{
+    font-size:clamp(38px,5.6vw,72px);
+    line-height:1.08;
+    margin:22px 0 30px;
+    max-width:15ch;
+    letter-spacing:-0.01em;
+  }
+  .hero p.lede{ font-size:17px; line-height:1.75; color:var(--ink-soft); max-width:46ch; }
+  .hero-portrait{
+    width:100%; aspect-ratio:4/5; border-radius:2px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(0,0,0,0.05), transparent 60%),
+      linear-gradient(160deg, var(--paper-warm), var(--paper));
+    border:1px solid var(--line);
+    position:relative; overflow:hidden;
+  }
+  .hero-portrait img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .hero-portrait::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(35,32,25,0.035) 0px, rgba(35,32,25,0.035) 1px, transparent 1px, transparent 26px);
+  }
+  .hero-portrait-caption{
+    position:absolute; bottom:14px; left:14px; right:14px;
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--graphite);
+    display:flex; justify-content:space-between;
+  }
+  .scroll-cue{ margin-top:70px; display:flex; align-items:center; gap:12px; color:var(--graphite); font-size:12px; }
+  .scroll-line{ width:36px; height:1px; background:var(--graphite); animation:pulseline 2.4s ease-in-out infinite; }
+  @keyframes pulseline{ 0%,100%{opacity:.4;} 50%{opacity:1;} }
+
+  /* ABOUT */
+  .about-grid{ display:grid; grid-template-columns:0.9fr 1.6fr; gap:70px; }
+  @media(max-width:860px){ .about-grid{ grid-template-columns:1fr; gap:36px; } }
+  .about-grid p{ font-size:16.5px; line-height:1.9; color:var(--ink-soft); margin:0 0 22px; }
+  .about-grid p:first-of-type::first-letter{
+    font-family:'Newsreader',serif; font-size:52px; float:left; line-height:0.8; padding-right:8px; padding-top:6px; color:var(--indigo);
+  }
+  .marginalia{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--graphite); border-left:1px solid var(--line); padding-left:18px; line-height:1.7; }
+  .marginalia strong{ color:var(--ink); display:block; margin-bottom:6px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; }
+  .marginalia div + div{ margin-top:22px; }
+
+  /* RESEARCH — paper cards */
+  .paper{
+    padding:34px 0; border-top:1px solid var(--line);
+  }
+  .paper:last-child{ border-bottom:1px solid var(--line); }
+  .paper-top{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:10px;}
+  .paper-title{ font-size:22px; max-width:60ch; line-height:1.3; flex:1 1 380px; margin:0; }
+  .status-tag{
+    display:inline-block; flex-shrink:0; margin-left:auto;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.5; letter-spacing:.04em; text-transform:uppercase;
+    padding:4px 12px; border:1px solid var(--line); border-radius:20px; color:var(--graphite); white-space:nowrap;
+  }
+  .status-tag.is-published{ color:var(--moss); border-color:var(--moss); }
+  .status-tag.progress{ color:var(--indigo); border-color:var(--indigo); }
+  .paper-meta{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--graphite); margin-bottom:16px; }
+  .paper-body{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  @media(max-width:760px){ .paper-body{ grid-template-columns:1fr; } }
+  .paper-col strong{ display:block; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--graphite); margin-bottom:8px; font-family:'IBM Plex Mono',monospace; font-weight:400;}
+  .paper-col p{ font-size:14.5px; line-height:1.7; color:var(--ink-soft); margin:0; }
+  .skills-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .skill-pill{ font-size:11px; padding:4px 10px; border:1px solid var(--line); border-radius:20px; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace; }
+
+  /* INTERESTS — label list + video container */
+  .interests-wrap{ display:grid; grid-template-columns:1fr 1.1fr; gap:60px; align-items:center; }
+  @media(max-width:820px){ .interests-wrap{ grid-template-columns:1fr; gap:34px; } }
+  .interest-row{
+    display:flex; align-items:baseline; gap:18px; padding:18px 0; border-top:1px solid var(--line);
+  }
+  .interests-list .interest-row:last-child{ border-bottom:1px solid var(--line); }
+  .interest-index{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--graphite); width:20px; flex-shrink:0; }
+  .interest-name{ font-size:19px; flex-shrink:0; }
+  .interest-note{ font-size:12.5px; color:var(--graphite); font-family:'IBM Plex Mono',monospace; margin-left:auto; text-align:right; }
+  @media(max-width:480px){ .interest-note{ display:none; } }
+
+  /* Media frame — clean container for an image or video, no clutter */
+  .media-frame{
+    position:relative; width:100%; aspect-ratio:16/10;
+    border:1px solid var(--line); border-radius:2px;
+    background:linear-gradient(160deg, var(--paper-warm), var(--paper));
+    overflow:hidden;
+  }
+  .media-frame::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(0deg, rgba(35,32,25,0.03) 0px, rgba(35,32,25,0.03) 1px, transparent 1px, transparent 26px);
+  }
+  .media-frame .play-icon{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:52px; height:52px; border-radius:50%; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(var(--paper-rgb),0.6);
+  }
+  .media-frame .play-icon::after{
+    content:""; width:0; height:0;
+    border-top:8px solid transparent; border-bottom:8px solid transparent;
+    border-left:13px solid var(--ink-soft); margin-left:4px;
+  }
+  .media-frame .media-caption{
+    position:absolute; bottom:12px; left:14px; right:14px;
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--graphite);
+    display:flex; justify-content:space-between;
+  }
+  .media-frame.video-loop video{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  }
+  .media-frame.video-loop{ border:none; background:none; }
+  .media-frame.video-loop::after{ display:none; }
+  .media-frame img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  }
+  .media-hover-swap .img-hover{ opacity:0; transition:opacity .5s ease; }
+  .media-hover-swap:hover .img-hover{ opacity:1; }
+
+
+  /* PROJECTS */
+  .project{ padding:44px 0; border-top:1px solid var(--line); display:grid; grid-template-columns:0.7fr 2.3fr; gap:50px; }
+  .project:last-child{ border-bottom:1px solid var(--line); }
+  @media(max-width:800px){ .project{ grid-template-columns:1fr; gap:20px; } }
+  .project-index{ font-family:'Newsreader',serif; font-style:italic; font-size:44px; color:var(--line); line-height:1; }
+  .project-stage{ margin-bottom:16px; }
+  .project-stage strong{ font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--indigo); }
+  .project-stage p{ margin:6px 0 0; font-size:15px; line-height:1.75; color:var(--ink-soft); }
+  .project-title{ font-size:26px; margin-bottom:22px; }
+  .project-title-row{ display:flex; align-items:baseline; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:22px; }
+  .project-title-row .project-title{ margin-bottom:0; }
+  .project-link{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--graphite);
+    border-bottom:1px solid var(--line); padding-bottom:1px; white-space:nowrap; flex-shrink:0;
+    transition:border-color .3s ease, color .3s ease;
+  }
+  .project-link:hover{ color:var(--indigo); border-color:var(--indigo); }
+
+  /* PUBLICATIONS */
+  .pub{ display:grid; grid-template-columns:80px 1fr auto; gap:24px; align-items:baseline; padding:22px 0; border-top:1px solid var(--line); }
+  .pub:last-child{ border-bottom:1px solid var(--line); }
+  @media(max-width:640px){ .pub{ grid-template-columns:1fr; gap:6px; } }
+  .pub-year{ font-family:'IBM Plex Mono',monospace; color:var(--graphite); font-size:13px; }
+  .pub-title{ font-size:16px; }
+  .pub-journal{ font-style:italic; font-family:'Newsreader',serif; color:var(--ink-soft); font-size:14.5px; }
+  .pub-doi{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--graphite); white-space:nowrap; }
+
+  /* READING LIST — shelf */
+  .shelf{ display:flex; gap:0; overflow-x:auto; padding-bottom:14px; scrollbar-width:thin; }
+  .book{
+    min-width:120px; height:210px; margin-right:2px;
+    background:linear-gradient(180deg, var(--paper-warm), var(--paper));
+    border:1px solid var(--line); border-left-width:3px;
+    display:flex; align-items:flex-end; padding:16px 10px;
+    transition:transform .3s ease, box-shadow .3s ease;
+    flex-shrink:0;
+  }
+  .book:hover{ transform:translateY(-10px); }
+  .book span{ font-size:12.5px; line-height:1.4; color:var(--ink-soft); writing-mode:vertical-rl; text-orientation:mixed; }
+  .book:nth-child(3n+1){ border-left-color:var(--indigo); }
+  .book:nth-child(3n+2){ border-left-color:var(--moss); }
+  .book:nth-child(3n){ border-left-color:var(--sandstone); }
+
+  .blog-cta{
+    margin-top:56px; padding-top:44px; border-top:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:28px; flex-wrap:wrap;
+  }
+  .blog-cta h3{ max-width:44ch; font-weight:400; }
+
+  /* AWARDS timeline */
+  .awards-wrap{ display:grid; grid-template-columns:1.7fr 1fr; gap:60px; align-items:stretch; }
+  @media(max-width:820px){ .awards-wrap{ grid-template-columns:1fr; gap:40px; } .award-collage{ height:320px; } }
+  .award-collage{ display:flex; flex-direction:column; align-items:center; padding-top:10px; height:100%; }
+  .award-photo{
+    width:78%; flex:1 1 0; min-height:0; border-radius:2px;
+    border:1px solid var(--line);
+    background:linear-gradient(160deg, var(--paper-warm), var(--paper));
+    position:relative; overflow:hidden;
+    box-shadow:0 10px 24px rgba(35,32,25,0.08);
+  }
+  .award-photo img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .award-photo:nth-child(1){ transform:rotate(-3deg); margin-left:-18%; z-index:1; }
+  .award-photo:nth-child(2){ transform:rotate(2deg); margin-top:-10%; margin-right:-14%; z-index:2; }
+  .award-photo:nth-child(3){ transform:rotate(-1.5deg); margin-top:-10%; margin-left:-10%; z-index:3; }
+  .timeline{ position:relative; padding-left:28px; }
+  .timeline::before{ content:""; position:absolute; left:0; top:6px; bottom:6px; width:1px; background:var(--line); }
+  .tl-item{ position:relative; padding-bottom:44px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{ content:""; position:absolute; left:-32px; top:5px; width:7px; height:7px; border-radius:50%; background:var(--indigo); }
+  .tl-year{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--graphite); margin-bottom:6px; }
+  .tl-title{ font-size:18px; margin-bottom:4px; }
+  .tl-body{ font-size:14.5px; color:var(--ink-soft); line-height:1.7; max-width:60ch; }
+
+  /* CV */
+  .cv-box{ border:1px solid var(--line); padding:56px; display:flex; align-items:center; justify-content:space-between; gap:30px; flex-wrap:wrap; }
+  .cv-box h3{ font-size:26px; margin:0 0 8px; }
+  .cv-box p{ color:var(--ink-soft); font-size:14.5px; margin:0; max-width:44ch; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:13px 26px; border:1px solid var(--ink); border-radius:2px;
+    font-size:13px; font-family:'IBM Plex Mono',monospace; letter-spacing:.03em;
+    transition:all .3s ease; white-space:nowrap;
+  }
+  .btn:hover{ background:var(--ink); color:var(--paper); }
+
+  /* CONTACT */
+  .contact-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:60px; }
+  @media(max-width:760px){ .contact-grid{ grid-template-columns:1fr; } }
+  .contact-grid h2{ font-size:clamp(30px,4vw,46px); max-width:14ch; line-height:1.15; }
+  .contact-list a{ display:block; font-size:15px; padding:14px 0; border-top:1px solid var(--line); }
+  .contact-list a:last-child{ border-bottom:1px solid var(--line); }
+  .contact-list a:hover{ color:var(--indigo); padding-left:6px; }
+  .contact-list a{ transition:all .3s ease; }
+
+  footer{ padding:36px 0 50px; }
+  .foot-quote{
+    display:flex; flex-direction:column; gap:8px; max-width:44ch;
+    font-family:'Newsreader',serif; font-style:italic; font-size:20px; color:var(--ink-soft); line-height:1.6;
+  }
+  .foot-attribution{ align-self:flex-end; font-style:normal; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--graphite); }
+  .foot-row{ display:flex; justify-content:space-between; margin-top:50px; font-size:12px; color:var(--graphite); font-family:'IBM Plex Mono',monospace; flex-wrap:wrap; gap:10px;}
+
+  /* margin note on hover */
+  .note-wrap{ position:relative; }
+  .note{
+    position:absolute; top:-6px; left:calc(100% + 20px); width:200px;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.6; color:var(--graphite);
+    opacity:0; transform:translateX(-6px); transition:all .35s ease; pointer-events:none;
+  }
+  .note-wrap:hover .note{ opacity:1; transform:translateX(0); }
+  @media(max-width:1100px){ .note{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="spine"><div class="spine-fill" id="spineFill"></div></div>
+
+<header class="nav">
+  <div class="wrap navrow">
+    <a href="#top" class="navmark">S. Vyas</a>
+    <nav class="navlinks">
+      <a href="#about" class="cite-link">About</a>
+      <a href="#research" class="cite-link">Research</a>
+      <a href="#interests" class="cite-link">Interests</a>
+      <a href="#projects" class="cite-link">Projects</a>
+      <a href="#publications" class="cite-link">Publications</a>
+      <a href="#reading" class="cite-link">Reading</a>
+      <a href="#contact" class="cite-link">Contact</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <a href="https://thepsychologypalette.substack.com" target="_blank" rel="noopener" class="blog-btn">Read the Blog ↗</a>
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <line x1="12" y1="1.5" x2="12" y2="4"></line>
+          <line x1="12" y1="20" x2="12" y2="22.5"></line>
+          <line x1="4.2" y1="4.2" x2="6" y2="6"></line>
+          <line x1="18" y1="18" x2="19.8" y2="19.8"></line>
+          <line x1="1.5" y1="12" x2="4" y2="12"></line>
+          <line x1="20" y1="12" x2="22.5" y2="12"></line>
+          <line x1="4.2" y1="19.8" x2="6" y2="18"></line>
+          <line x1="18" y1="6" x2="19.8" y2="4.2"></line>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path>
+        </svg>
+      </button>
+      <button class="menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="cite-link">About</a>
+    <a href="#research" class="cite-link">Research</a>
+    <a href="#interests" class="cite-link">Interests</a>
+    <a href="#projects" class="cite-link">Projects</a>
+    <a href="#publications" class="cite-link">Publications</a>
+    <a href="#reading" class="cite-link">Reading</a>
+    <a href="#awards" class="cite-link">Awards</a>
+    <a href="#cv" class="cite-link">CV</a>
+    <a href="#contact" class="cite-link">Contact</a>
+    <a href="https://thepsychologypalette.substack.com" target="_blank" rel="noopener" class="cite-link">Read the Blog ↗</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow reveal">Psychology &nbsp;·&nbsp; Research &nbsp;·&nbsp; Education</div>
+        <h1 class="reveal reveal-delay-1">Understanding people through observation, research, and thoughtful <span class="display">inquiry.</span></h1>
+        <p class="lede reveal reveal-delay-2">I'm Swadha Vyas, a high school senior based in Banswara, working at the intersection of cognitive and social psychology. My work begins in notebooks; questions about attention, memory, and decision-making that I try to answer carefully, one study at a time.</p>
+        <div class="scroll-cue reveal reveal-delay-3">
+          <div class="scroll-line"></div>
+          <span>Scroll to begin reading</span>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="hero-portrait" id="portrait">
+          <img src="fig_1.jpg" alt="Fig. 01" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">About</h2>
+        <span class="section-num">02 — Notebook entry</span>
+      </div>
+      <div class="about-grid">
+        <div class="marginalia reveal">
+          <div>
+            <strong>Based in</strong>
+            Banswara, India
+          </div>
+          <div>
+            <strong>Studying</strong>
+            Psychology &amp; Behavioral Science
+          </div>
+          <div>
+            <strong>Interested in</strong>
+            How people notice, remember, and decide
+          </div>
+          <div>
+            <strong>Currently</strong>
+            Navigating through High School, Research papers & Bharatnatyam 
+          </div>
+        </div>
+        <div class="reveal reveal-delay-1">
+          <p>I did not start with psychology so much as I started with noticing. As a child I kept a small notebook of things people said and did that seemed to contradict themselves — a habit that, years later, turned out to have a name: behavioral observation.</p>
+          <p>That instinct has shaped almost everything I've studied since. I'm drawn to the quiet mechanics behind human behavior — the gap between what people intend and what they do, the way memory reshapes itself each time it's recalled, the small biases that guide decisions we assume are rational.</p>
+          <p>My research so far has moved across cognitive load, social conformity, and educational outcomes, but the through-line is consistent: I want to understand people well enough to help institutions design around how minds actually work, rather than how we wish they did.</p>
+          <p>Outside of research, I read widely, transcribe old field notes for a university archive, and am, by most accounts, incapable of leaving a library without a stack of books I did not plan to borrow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">Research</h2>
+        <span class="section-num">03 — Published &amp; ongoing work</span>
+      </div>
+
+      <div class="paper reveal">
+        <div class="paper-top">
+          <div class="paper-title">Cognitive load and decision fatigue among first-generation university students</div>
+          <a href="#publications" class="status-tag is-published">Published</a>
+        </div>
+        <div class="paper-meta">Journal of Applied Cognitive Psychology (Student Edition), 2025 · with Dr. M. Iyer, Dr. R. Chandra</div>
+        <div class="paper-body">
+          <div class="paper-col"><strong>Abstract</strong><p>Examines how compounding academic and administrative decisions affect judgment quality in students without generational precedent for navigating university systems.</p></div>
+          <div class="paper-col"><strong>Methods</strong><p>Mixed-methods design combining decision-fatigue task batteries with semi-structured interviews across two university cohorts (n=142).</p></div>
+          <div class="paper-col"><strong>Findings</strong><p>Decision quality declined measurably after sequences of unrelated administrative choices, independent of academic workload.</p></div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-pill">Experimental design</span>
+          <span class="skill-pill">R / statistical modeling</span>
+          <span class="skill-pill">Qualitative coding</span>
+        </div>
+      </div>
+
+      <div class="paper reveal">
+        <div class="paper-top">
+          <div class="paper-title">Conformity thresholds in low-stakes versus high-stakes group settings</div>
+          <span class="status-tag progress">In progress</span>
+        </div>
+        <div class="paper-meta">Independent study, 2026 · with Prof. S. Bhatt</div>
+        <div class="paper-body">
+          <div class="paper-col"><strong>Abstract</strong><p>A replication and extension of classical conformity paradigms, testing whether perceived stakes moderate the strength of social influence.</p></div>
+          <div class="paper-col"><strong>Methods</strong><p>Controlled lab experiment with confederate groups across two stake conditions; between-subjects design.</p></div>
+          <div class="paper-col"><strong>Findings</strong><p>Preliminary data collection underway; results expected Q1 2027.</p></div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-pill">Experimental psychology</span>
+          <span class="skill-pill">Confederate protocol design</span>
+        </div>
+      </div>
+
+      <div class="paper reveal">
+        <div class="paper-top">
+          <div class="paper-title">Memory reconstruction and false confidence in eyewitness recall tasks</div>
+          <a href="#publications" class="status-tag is-published">Published</a>
+        </div>
+        <div class="paper-meta">Undergraduate Journal of Behavioral Science, 2024 · solo author</div>
+        <div class="paper-body">
+          <div class="paper-col"><strong>Abstract</strong><p>Investigates the relationship between subjective recall confidence and objective accuracy in staged-event eyewitness tasks.</p></div>
+          <div class="paper-col"><strong>Methods</strong><p>Staged event exposure followed by delayed recall interviews and confidence self-ratings (n=64).</p></div>
+          <div class="paper-col"><strong>Findings</strong><p>Confidence rose with each retelling even as accuracy declined, most sharply after the second recall.</p></div>
+        </div>
+        <div class="skills-row">
+          <span class="skill-pill">Cognitive interviewing</span>
+          <span class="skill-pill">Data analysis</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERESTS: knowledge map -->
+  <section id="interests">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">Interests</h2>
+        <span class="section-num">04 — Areas of focus</span>
+      </div>
+      <div class="interests-wrap reveal">
+        <div class="interests-list">
+          <div class="interest-row"><span class="interest-index">01</span><span class="interest-name serif">Cognitive Psychology</span><span class="interest-note">Attention, memory, perception</span></div>
+          <div class="interest-row"><span class="interest-index">02</span><span class="interest-name serif">Social Psychology</span><span class="interest-note">Conformity, group influence</span></div>
+          <div class="interest-row"><span class="interest-index">03</span><span class="interest-name serif">Behavioral Science</span><span class="interest-note">Applied design, incentives</span></div>
+          <div class="interest-row"><span class="interest-index">04</span><span class="interest-name serif">Human Decision Making</span><span class="interest-note">Judgment under uncertainty</span></div>
+          <div class="interest-row"><span class="interest-index">05</span><span class="interest-name serif">Educational Psychology</span><span class="interest-note">Learning, motivation</span></div>
+          <div class="interest-row"><span class="interest-index">06</span><span class="interest-name serif">Mental Health Research</span><span class="interest-note">Stress, resilience, wellbeing</span></div>
+        </div>
+        <div class="media-frame video-loop">
+          <video autoplay muted loop playsinline>
+            <source src="fig_2.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">Projects</h2>
+        <span class="section-num">05 — Case studies</span>
+      </div>
+
+      <div class="project reveal">
+        <div class="project-index">01</div>
+        <div>
+          <div class="project-title">Redesigning orientation week for first-generation students</div>
+          <div class="project-stage"><strong>Problem</strong><p>First-generation students reported feeling overwhelmed within the first 72 hours of orientation, correlating with lower first-semester GPA.</p></div>
+          <div class="project-stage"><strong>Approach</strong><p>Applied cognitive-load findings from prior research to redesign the decision sequence of orientation week, reducing unnecessary choices and batching administrative tasks.</p></div>
+          <div class="project-stage"><strong>Outcome</strong><p>Piloted with 80 incoming students; self-reported overwhelm dropped by a third in exit surveys.</p></div>
+          <div class="project-stage"><strong>Reflection</strong><p>The clearest lesson was that removing choices, done thoughtfully, can be more respectful of students than offering more of them.</p></div>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="project-index">02</div>
+        <div>
+          <div class="project-title">A field notebook archive for a local psychology department</div>
+          <div class="project-stage"><strong>Problem</strong><p>Decades of handwritten field notes from department studies existed only on paper, at risk of loss and unusable for meta-analysis.</p></div>
+          <div class="project-stage"><strong>Approach</strong><p>Built a lightweight transcription and tagging workflow, working with three student volunteers to digitize and index the archive by method and topic.</p></div>
+          <div class="project-stage"><strong>Outcome</strong><p>Over 400 pages transcribed and indexed; the archive is now searchable and cited in two ongoing studies.</p></div>
+          <div class="project-stage"><strong>Reflection</strong><p>Reading researchers' original uncertainty, in their own handwriting, taught me more about the scientific process than any published paper.</p></div>
+        </div>
+      </div>
+
+      <div class="project reveal">
+        <div class="project-index">03</div>
+        <div>
+          <div class="project-title-row">
+            <div class="project-title">DeproLens — a local-only privacy screener for human-subjects data</div>
+            <a href="https://github.com/your-username/deprolens" target="_blank" rel="noopener" class="project-link">View on GitHub ↗</a>
+          </div>
+          <div class="project-stage"><strong>Problem</strong><p>Before a dataset can go on OSF, someone has to check every column and every open-ended response by hand for identifying details. Structured columns are easy to catch; a participant writing "my therapist, Dr. Alan Whitfield, suggested..." inside a free-text answer is not — you'd have to read every response to find it.</p></div>
+          <div class="project-stage"><strong>Approach</strong><p>Built an open-source, fully local tool (no cloud upload, no telemetry) that runs three deliberately separate checks: direct-identifier detection and redaction across both columns and free text, a k-anonymity check for quasi-identifying combinations like age, gender, and location, and an auto-generated OSF-ready data dictionary — kept as three distinct outputs rather than one opaque score.</p></div>
+          <div class="project-stage"><strong>Outcome</strong><p>A working Streamlit app with a CI-tested pytest suite, MIT-licensed and released publicly. Every generated report carries an explicit disclaimer that it's automated, best-effort screening, not a compliance guarantee.</p></div>
+          <div class="project-stage"><strong>Reflection</strong><p>The hardest design decision was what not to build — merging direct- and quasi-identifier risk into a single score would have been quick, but it would hide which specific thing was actually driving the risk. Keeping them separate and clearly labeled felt more honest, even if it made the tool a little less tidy.</p></div>
+          <div class="skills-row">
+            <span class="skill-pill">Python / Streamlit</span>
+            <span class="skill-pill">spaCy / NER</span>
+            <span class="skill-pill">k-anonymity</span>
+            <span class="skill-pill">Open source</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">Publications</h2>
+        <span class="section-num">06 — Citation record</span>
+      </div>
+
+      <div class="pub reveal">
+        <div class="pub-year">2025</div>
+        <div>
+          <div class="pub-title">Cognitive load and decision fatigue among first-generation university students</div>
+          <div class="pub-journal">Journal of Applied Cognitive Psychology (Student Edition)</div>
+        </div>
+        <div class="pub-doi">doi: 10.xxxx/jacp.2025.0142</div>
+      </div>
+      <div class="pub reveal">
+        <div class="pub-year">2024</div>
+        <div>
+          <div class="pub-title">Memory reconstruction and false confidence in eyewitness recall tasks</div>
+          <div class="pub-journal">Undergraduate Journal of Behavioral Science</div>
+        </div>
+        <div class="pub-doi">doi: 10.xxxx/ujbs.2024.0087</div>
+      </div>
+      <div class="pub reveal">
+        <div class="pub-year">2023</div>
+        <div>
+          <div class="pub-title">A survey of conformity paradigms in Indian classroom settings</div>
+          <div class="pub-journal">Regional Review of Social Psychology</div>
+        </div>
+        <div class="pub-doi">doi: 10.xxxx/rrsp.2023.0019</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- READING LIST -->
+  <section id="reading">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">Reading List</h2>
+        <span class="section-num">07 — Books that shaped thinking</span>
+      </div>
+      <div class="shelf reveal">
+        <div class="book"><span>Thinking, Fast and Slow — Kahneman</span></div>
+        <div class="book"><span>The Man Who Mistook His Wife for a Hat — Sacks</span></div>
+        <div class="book"><span>Influence — Cialdini</span></div>
+        <div class="book"><span>Man's Search for Meaning — Frankl</span></div>
+        <div class="book"><span>Predictably Irrational — Ariely</span></div>
+        <div class="book"><span>The Body Keeps the Score — van der Kolk</span></div>
+        <div class="book"><span>Quiet — Cain</span></div>
+        <div class="book"><span>Mindset — Dweck</span></div>
+      </div>
+
+      <div class="blog-cta reveal">
+        <div>
+          <div class="eyebrow" style="margin-bottom:8px;">Longer form writing</div>
+          <h3 style="font-size:20px; margin:0;">Notes on cognition, research, and the odd finding along the way — on the blog.</h3>
+        </div>
+        <a href="https://thepsychologypalette.substack.com" target="_blank" rel="noopener" class="btn">Read on Substack ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">Awards</h2>
+        <span class="section-num">08 — Timeline</span>
+      </div>
+      <div class="awards-wrap">
+        <div class="timeline reveal">
+          <div class="tl-item">
+            <div class="tl-year">2026</div>
+            <div class="tl-title">Undergraduate Research Fellowship</div>
+            <div class="tl-body">Awarded for independent study on conformity thresholds; funded a semester of lab-based data collection.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2025</div>
+            <div class="tl-title">Best Student Paper, Regional Psychology Symposium</div>
+            <div class="tl-body">Recognized for the cognitive load and decision fatigue study, presented to a panel of faculty reviewers.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2024</div>
+            <div class="tl-title">Dean's List</div>
+            <div class="tl-body">Recognized for academic standing across all four semesters of coursework to date.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2023</div>
+            <div class="tl-title">National Psychology Olympiad, Finalist</div>
+            <div class="tl-body">Ranked among the top twelve nationally in applied case-analysis rounds.</div>
+          </div>
+        </div>
+        <div class="award-collage reveal reveal-delay-1">
+          <div class="award-photo"><img src="award_1.jpg" alt="" onerror="this.style.display='none'"></div>
+          <div class="award-photo"><img src="award_2.jpg" alt="" onerror="this.style.display='none'"></div>
+          <div class="award-photo"><img src="award_3.jpg" alt="" onerror="this.style.display='none'"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CV -->
+  <section id="cv">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 style="font-size:34px;">Curriculum Vitae</h2>
+        <span class="section-num">09 — Full record</span>
+      </div>
+      <div class="cv-box reveal">
+        <div>
+          <h3>Download the complete CV</h3>
+          <p>Research experience, coursework, methods training, and references — updated July 2026.</p>
+        </div>
+        <a href="#" class="btn">Download PDF ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <div class="eyebrow" style="margin-bottom:18px;">10 — Get in touch</div>
+        <h2>Open to research collaboration, conversation, and questions.</h2>
+      </div>
+      <div class="contact-list reveal reveal-delay-1">
+        <a href="mailto:ananya.rao@example.edu" class="cite-link">swadha.vyas@example.edu →</a>
+        <a href="#" class="cite-link">LinkedIn →</a>
+        <a href="#" class="cite-link">Google Scholar →</a>
+        <a href="#" class="cite-link">Institutional Repository →</a>
+        <div class="media-frame media-hover-swap" style="margin-top:48px; aspect-ratio:4/3;">
+          <img class="img-base" src="fig_3.jpg" alt="Desk and notebook, closing photo" onerror="this.style.display='none'">
+          <img class="img-hover" src="fig_4.jpg" alt="" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-quote reveal">
+      <span>"The mind is not a vessel to be filled but a fire to be kindled."</span>
+      <span class="foot-attribution">— attributed to Plutarch</span>
+    </div>
+    <div class="foot-row">
+      <span>© 2026 Swadha Vyas</span>
+      <span>Banswara, India</span>
+      <span>Built with care</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+  // reading progress spine
+  const spineFill = document.getElementById('spineFill');
+  function updateSpine(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop/docHeight)*100 : 0;
+    spineFill.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateSpine, { passive:true });
+  updateSpine();
+
+  // subtle parallax on hero portrait
+  const portrait = document.getElementById('portrait');
+  window.addEventListener('mousemove', (e)=>{
+    const x = (e.clientX / window.innerWidth - 0.5) * 6;
+    const y = (e.clientY / window.innerHeight - 0.5) * 6;
+    portrait.style.transform = `translate(${x}px, ${y}px)`;
+  });
+
+  // dark mode toggle
+  const themeBtn = document.getElementById('themeToggle');
+  function setTheme(dark){
+    document.documentElement.classList.toggle('dark', dark);
+  }
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(prefersDark);
+  themeBtn.addEventListener('click', ()=>{
+    setTheme(!document.documentElement.classList.contains('dark'));
+  });
+
+  // mobile hamburger menu
+  const menuBtn = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', ()=>{
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuBtn.classList.toggle('open', isOpen);
+    menuBtn.setAttribute('aria-expanded', isOpen);
+  });
+  mobileMenu.querySelectorAll('a').forEach(link=>{
+    link.addEventListener('click', ()=>{
+      mobileMenu.classList.remove('open');
+      menuBtn.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // reduced motion respect
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('.reveal').forEach(el=>{ el.style.transition='none'; el.classList.add('in'); });
+  }
+</script>
+
+</body>
+</html>
